@@ -10,8 +10,12 @@ const app = express();
 app.use(cors());
 const router = express.Router();
 
-// this is our MongoDB database
-const dbRoute = "mongodb+srv://tasur:Dzirciema93@cluster0-pnv4h.gcp.mongodb.net/test?retryWrites=true&w=majority";
+// MongoDB connection string comes from the environment (never commit credentials)
+const dbRoute = process.env.MONGODB_URI;
+if (!dbRoute) {
+  console.error('FATAL: MONGODB_URI is not set.');
+  process.exit(1);
+}
 
 // connects our back end code with the database
 mongoose.connect(dbRoute)
